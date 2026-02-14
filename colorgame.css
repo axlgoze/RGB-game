@@ -1,0 +1,130 @@
+/* =========================================
+   1. Reset
+   ========================================= */
+*, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    background-color: #232323;
+    color: white;
+    display: flex;
+    flex-direction: column; /* Alineación vertical para el main */
+    align-items: center;
+}
+
+/* =========================================
+   2. Main container
+   ========================================= */
+.game {
+    text-align: center;
+    width: 100%;
+}
+
+.title {
+    display: block;
+    background-color: #4682b4;
+    padding: 30px 0;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.titleDisplay {
+    display: block;
+    font-size: 3.5rem;
+    line-height: 1.1;
+}
+
+/* Control bar */
+.controls {
+    background-color: white;
+    color: #4682b4;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.controls__btn {
+    height: 100%;
+    background: none;
+    border: none;
+    color: inherit;
+    text-transform: uppercase;
+    font-weight: 700;
+    letter-spacing: 1px;
+    padding: 0 15px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.controls__btn:hover {
+    background-color: #4682b4;
+    color: white;
+}
+
+.controls__btn--selected{
+	border: solid 3px #4682b4;
+}
+
+/* =========================================
+   3. Color Containers
+   ========================================= */
+#color {
+    margin: 40px auto;
+    max-width: 600px;
+	display: flex;
+    gap: 30px;
+}
+
+.color__container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3 columnas fijas */
+    gap: 20px;
+    padding: 0 20px;
+}
+
+/* Esta es la clase que aplicas a los círculos generados por JS */
+.circle {
+    width: 200px;
+    aspect-ratio: 1 / 1;    /* Mantiene el círculo perfecto */
+    background-color: #4682b4;
+    border-radius: 50%;      /* AQUÍ SE HACE REDONDO */
+    cursor: pointer;
+    transition: transform 0.3s, background-color 0.5s;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+}
+
+.circle:hover {
+    transform: scale(1.1);
+}
+
+@keyframes shake {
+  0% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  50% { transform: translateX(5px); }
+  75% { transform: translateX(-5px); }
+  100% { transform: translateX(0); }
+}
+
+.shake {
+  animation: shake 0.3s ease-in-out;
+}
+
+.hidden {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.5s ease;
+}
+
+/* Responsividad básica */
+@media (max-width: 600px) {
+    .titleDisplay { font-size: 2.2rem; }
+    .color__container { gap: 10px; }
+}

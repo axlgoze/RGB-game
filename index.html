@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>RGB game</title>
+	<link rel="stylesheet" type="text/css" href="colorgame.css">
+</head>
+<body>
+
+    <main class="game">
+        <span class="title" id="game-title">The Great<br>
+            <span class="titleDisplay" id="rgb-title">rgb</span><br>
+            Color Guessing Game
+        </span>
+    
+        <div  class="controls" id="controls">
+            <button class="controls__btn" id="reset-colors-btn">new colors</button>
+            <span class="controls__title">Difficulty:</span>
+            <button class="controls__btn" id="easy-btn">Easy</button>
+            <button class="controls__btn" id="hard-btn">Hard</button>
+        </div>
+        
+        <div id="color">
+            <!-- <div class="color__container circle" id="color-container">
+
+            </div> -->
+        </div>
+
+        <div class="message">
+            <span class="message__color" id="color-to-guess"></span>
+        </div>
+
+    </main>
+
+    <script type="text/javascript" src="colorgame.js"></script>
+</body>
+</html>
