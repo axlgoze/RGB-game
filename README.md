@@ -6,7 +6,7 @@
 
 !["Rating app"](./assets/rgbgame.png)
 
-A vibrant, interactive web-based puzzle that challenges users to identify the correct color based on RGB (Red, Green, Blue) numerical values. The project provides an engaging way to learn how digital colors are composed while maintaining a clean, responsive UI with smooth animations and dynamic difficulty scaling.
+A vibrant, interactive web application that challenges users to identify a specific color based on its RGB (Red, Green, Blue) numerical values. The project provides a gamified way to learn how digital colors are composed, featuring a sleek, minimalist aesthetic with smooth CSS animations and a "Single Source of Truth" state management pattern.
 
 **Languages**: HTML5, CSS3, JavaScript
 
@@ -14,24 +14,23 @@ A vibrant, interactive web-based puzzle that challenges users to identify the co
 
 ```mermaid
 graph TD
-    A[Start Game] --> B{Select Difficulty}
-    B -- Easy --> C[Generate 3 Colors]
-    B -- Hard --> D[Generate 6 Colors]
-    C --> E[Pick 1 Winner]
-    D --> E
-    E --> F[User Clicks Circle]
-    F -- Wrong --> G[Hide Circle with Shake Animation]
-    F -- Correct --> H[Handle Win: Flash UI & Reset]
-    H --> B
+    A[initGame: Set Difficulty] --> B{Generate Palette}
+    B --> C[Pick Target Color]
+    C --> D[renderUI: Build Circles]
+    D --> E{User Clicks Circle}
+    E -- Wrong --> F[Shake & Hide Circle]
+    E -- Correct --> G[handleWin: Celebration Effects]
+    G --> H[Timeout: Reset Game]
+    H --> A
 ```
 
 Core Components
 | File/Class | Primary Responsibility | Key Inputs/Outputs |
 | :--- | :--- | :--- |
-| `index.html` | Defines the semantic structure and game layout. | **In:** None / **Out:** DOM Nodes |
-| `colorgame.js` | Manages game state, logic, and color generation. | **In:** Click Events / **Out:** Dynamic UI Updates |
-| `colorgame.css` | Handles "Clean & Airy" styling and animations. | **In:** Class Triggers / **Out:** Visual Styles |
-| `generateColors()` | Creates random RGB strings. | **In:** Difficulty / **Out:** Array of RGB strings |
+| `gameState` | Maintains the "Single Source of Truth" (difficulty, colors, game status). | **In:** User interaction / **Out:** UI State |
+| `Utils` |Logic for random RGB generation and palette array creation. | **In:** Count / **Out:** Array of RGB strings |
+| `VisualEffects` | Orchestrates win animations (celebration, pulse, and color flashes). | **In:** DOM Elements / **Out:** Visual CSS changes |
+| `renderUI` | Syncs the DOM with the current state of gameState. | **In:** State object / **Out:** Rendered HTML |
 
 ### Installation & Usage
 Installation
@@ -47,7 +46,13 @@ Launch:
 Open the index.html file in any modern web browser.
 
 ### Usage
-Select a difficulty (Easy or Hard) to generate colors. Look at the RGB code displayed in the message area (e.g., `rgb(255 0 120))` and click the circle that you believe matches that code.
+1. Select a difficulty (Easy = 3 colors, Hard = 6 colors).
+
+2. Read the RGB code displayed in the header (e.g., rgb(255 0 0)).
+
+3. Click the circle you believe matches that code.
+
+If you win, enjoy the celebration effect before the game automatically resets!
 
 <details>
 <summary><b>Click to see Game Rules</b></summary>
@@ -64,21 +69,21 @@ Correct Guess: The entire background changes to the winning color and the game r
 
 ### Design
 
-Separation of Concerns: HTML handles structure, CSS handles aesthetics/animations, and JS handles the business logic.
+- Decoupled Logic: Utilities and Visual Effects are isolated in objects (Utils, VisualEffects) to improve maintainability.
 
-Event Delegation: The colorsDiv uses a single event listener to manage clicks on all dynamically generated circles, improving performance.
+- Event Delegation: The colorsDiv handles clicks for all circles, reducing the number of event listeners and improving performance.
 
-Visual Feedback: Uses @keyframes shake and opacity transitions to provide immediate non-verbal feedback to the user.
+- BEM Naming: CSS follows the Block-Element-Modifier convention for predictable styling.
 
 ### Roadmap:
 
 - [ ] Implement a "Score Streak" counter to track consecutive wins.
 
-- [ ] Add a "Hex Mode" to toggle between RGB and Hexadecimal codes.
+- [ ] Implement a "Custom Mode" where users can choose the number of circles.
 
-- [ ] Refactor CSS to use Custom Properties (Variables) for easier theme switching.
-
-- [ ] Add sound effects for "Success" and "Failure" states.
+- [ ] Add Sound Effects for "Correct" and "Wrong" guesses.
+ 
+- [ ] Refactor into a Component-based structure (e.g., Web Components).
 
 ### Contribution & Testing
 ### How to Contribute
@@ -93,16 +98,17 @@ Keep the global namespace clean by encapsulating new logic within specific modul
 ### Testing
 Currently, testing is performed manually:
 
-Open the browser console (F12).
+Open the browser console.
 
-Verify that checkMatch() logs "YOU ROCK!" upon selecting the correct color.
+Verify that gameState updates correctly after each click.
 
-Ensure the resetGame() function clears all arrays and returns the UI to the default state.
+Ensure the shake animation triggers only on incorrect guesses.
 
-Lessons Learned (Educational Log)
-Hardest Part: Coordinating the timing between the "Win" animation (color flashing) and the automatic reset of the game state without causing memory leaks or overlapping intervals.
 
-Main Takeaway: Event delegation is significantly more efficient than attaching listeners to every individual game element, especially when those elements are deleted and recreated frequently.
+### Lessons Learned (Educational Log)
+Hardest Part: Managing the timing between the celebrationEffect and the automatic game reset to ensure the UI didn't flicker or break the state transition.
+
+Main Takeaway: Using a centralized gameState object makes debugging significantly easier than tracking variables scattered throughout the script.
 
 ---
 ### About me
